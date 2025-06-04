@@ -1,81 +1,57 @@
+This project utilizes a 3D Convolutional Neural Network (ResNet3D-18) to classify video clips as violent or non-violent. It's designed for analyzing real-world surveillance and public footage.
 
-# 🫁 Chest CT Scan Classification using ResNet18
+📁 Dataset
+Source: Real-Life Violence Situations Dataset
 
-In this project, a deep learning network (ResNet18) is constructed and refined to categorize chest CT scan images into several cancer-related classifications. A labeled dataset of CT scans is used to train a ResNet18 model using transfer learning, and its performance is assessed on both training and test sets.
+Structure:
 
-## 📂 Dataset
-The dataset is structured into three folders:
+Real Life Violence Dataset/
+├── Violence/
+└── NonViolence/
 
-- `train/`
-- `valid/`
-- `test/`
+🧠 Model Overview
+Architecture: ResNet3D-18
 
-There are subdirectories inside each folder that are named after the corresponding classes. Expert radiologists have classified the pictures, which are CT scans of the lungs.
+Modifications:
 
-**Source**: The dataset was retrieved from Kaggle, originally used for lung cancer detection research and classification challenges.
+Final fully connected layer adjusted to output 2 classes (Violence, Non-Violence)
 
-## 🏷️ Class Definitions
+Input Shape: [1, 3, 16, 112, 112] (Batch, Channels, Frames, Height, Width)
 
-### Adenocarcinoma Left Lower Lobe
-- **Type**: Malignant (Cancer)
-- **Details**: A common form of non-small cell lung cancer (NSCLC) that originates in mucus-secreting glands.
-- **Location**: Left lower lobe of the lung.
-- **Note**: More common in non-smokers and women.
+🧪 Performance Metrics
+Metric	Value
+Training Loss	0.0808
+Validation Loss	0.1585
+Validation Accuracy	95.25%
 
-### Large Cell Carcinoma Left Hilum
-- **Type**: Malignant (Cancer)
-- **Details**: A fast-growing NSCLC subtype with large, abnormal cells.
-- **Location**: Near the left hilum (central part of the lung where vessels and bronchi enter).
-- **Note**: Known for aggressive behavior and rapid spread.
+Classification Report:
 
-### Squamous Cell Carcinoma Left Hilum
-- **Type**: Malignant (Cancer)
-- **Details**: Arises from the squamous cells lining the bronchi.
-- **Location**: Also in the left hilum.
-- **Note**: Strongly linked to smoking history.
+markdown
+Copy
+Edit
+              precision    recall  f1-score   support
 
-### Benign
-- **Type**: Non-cancerous
-- **Details**: Includes non-malignant abnormalities, such as scars, infections, or nodules.
-- **Note**: No metastatic potential, but some benign lesions require monitoring or treatment.
+           0       0.98      0.92      0.95       200
+           1       0.92      0.98      0.95       200
 
-## 🧠 Model Architecture
+    accuracy                           0.95       400
+   macro avg       0.95      0.95      0.95       400
+weighted avg       0.95      0.95      0.95       400
 
-- **Base Model**: ResNet18 pre-trained on ImageNet.
-- **Modifications**:
-  - Replaced the final fully connected layer with a custom classifier.
-  - All layers unfrozen for full fine-tuning.
+🔍 Sample Prediction
+Input Video: V_10.mp4
+Prediction: Violence
+Confidence: 1.00
+Video Tensor Shape: [1, 3, 16, 112, 112]
+en.wikipedia.org
 
-- **Model Interpretability**:
-  - Add Grad-CAM or Integrated Gradients to visualize what the model is focusing on.
-  - Help doctors understand why a prediction was made.
+🚀 Future Enhancements
 
-- **Data augmentations** applied using `torchvision.transforms`.
-- **Advanced Augmentation**: Include CutMix, MixUp, or AutoAugment to improve robustness to variations in CT images
+Implement temporal attention mechanisms
 
-## 🏁 Final Results
+Deploy model using TorchScript or ONNX for real-time inference
 
-| Metric         | Value    |
-|----------------|----------|
-| Train Accuracy | 99.53%   |
-| Test Accuracy  | 89.14%   |
-| Train Loss     | 0.0231   |
-| Test Loss      | 0.3442   |
+⚠️ Disclaimer
+This project is intended for educational and research purposes only. It is not suitable for deployment in real-world surveillance systems without thorough validation and ethical considerations.
 
-✅ Indicates strong generalization with some room for further validation improvements.
 
-## 🚀 Future Improvements
-
-- Add Grad-CAM visualizations for model explainability.
-- Hyperparameter optimization
-- Export to ONNX or TorchScript for deployment
-
-## 🤝 Acknowledgements
-
-- CT scan dataset used under license from Kaggle.
-- Model powered by PyTorch.
-- Medical guidance based on publicly available oncology resources.
-
-## 🏥 Disclaimer
-
-This model is built for educational and research purposes. It should not be used for actual clinical diagnosis without further validation and regulatory approval.
